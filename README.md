@@ -76,6 +76,19 @@ docker compose up --build
 
 Docker uses PostgreSQL 16 with the pgvector extension. Add `OPENAI_API_KEY` to `.env` to activate OpenAI embeddings and generated answers.
 
+## Live deployment
+
+The portfolio deployment uses three independently managed services:
+
+- Vercel for the Next.js frontend (`frontend` project root)
+- Render for the FastAPI Docker service (`render.yaml` blueprint)
+- Neon for persistent PostgreSQL with the `vector` extension
+
+Set `DATABASE_URL` on Render to the Neon pooled connection string and leave
+`OPENAI_API_KEY` empty to use deterministic local embeddings. Set
+`BACKEND_INTERNAL_URL` on Vercel to the public Render service URL. Secrets are
+configured in the hosting dashboards and are never committed to this repository.
+
 ## Security model
 
 Every protected request derives the workspace from a signed JWT. The API never accepts a client-provided workspace identifier. Every document, chunk, retrieval query, deletion, metric, and audit lookup is filtered by that authenticated workspace.
