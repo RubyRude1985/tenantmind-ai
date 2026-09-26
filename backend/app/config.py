@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     openai_embedding_model: str = "text-embedding-3-small"
     jwt_secret: str = "change-this-secret-before-production"
     access_token_minutes: int = 480
+    cors_origins: str = "http://localhost:3000"
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 

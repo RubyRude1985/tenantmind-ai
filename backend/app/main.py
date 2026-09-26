@@ -7,17 +7,25 @@ from sqlalchemy import delete, func, select
 from sqlalchemy.orm import Session
 
 from .auth import create_token, current_user, hash_password, verify_password
+from .config import get_settings
 from .database import Base, SessionLocal, engine, prepare_database
 from .documents import chunk_pages, extract_pages
 from .models import AuditEvent, Document, DocumentChunk, User, Workspace
 from .rag import answer, embed, make_citations, retrieve
 from .schemas import AuthResponse, ChatRequest, ChatResponse, DashboardStats, DocumentCreate, DocumentRead, LoginRequest, RegisterRequest
 
+settings = get_settings()
 prepare_database()
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="TenantMind AI API", version="2.0.0", description="Secure multi-tenant RAG assistant with PDF ingestion and cited answers.")
-app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:3000"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[origin.strip() for origin in settings.cors_origins.split(",") if origin.strip()],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def get_db() -> Generator[Session, None, None]:

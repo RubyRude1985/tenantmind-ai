@@ -18,3 +18,18 @@ services:
         value: gpt-4o-mini
       - key: OPENAI_EMBEDDING_MODEL
         value: text-embedding-3-small
+      - key: CORS_ORIGINS
+        value: https://tenantmind-ai.onrender.com
+
+  - type: web
+    name: tenantmind-ai
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./out
+    autoDeploy: true
+    envVars:
+      - key: STATIC_EXPORT
+        value: true
+      - key: NEXT_PUBLIC_API_URL
+        value: https://tenantmind-ai-api.onrender.com

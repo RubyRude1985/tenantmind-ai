@@ -80,13 +80,13 @@ Docker uses PostgreSQL 16 with the pgvector extension. Add `OPENAI_API_KEY` to `
 
 The portfolio deployment uses three independently managed services:
 
-- Vercel for the Next.js frontend (`frontend` project root)
+- Render Static Sites for the exported Next.js frontend (`frontend` project root)
 - Render for the FastAPI Docker service (`render.yaml` blueprint)
 - Neon for persistent PostgreSQL with the `vector` extension
 
 Set `DATABASE_URL` on Render to the Neon pooled connection string and leave
-`OPENAI_API_KEY` empty to use deterministic local embeddings. Set
-`BACKEND_INTERNAL_URL` on Vercel to the public Render service URL. Secrets are
+`OPENAI_API_KEY` empty to use deterministic local embeddings. The static frontend
+receives its public API address through `NEXT_PUBLIC_API_URL`. Secrets are
 configured in the hosting dashboards and are never committed to this repository.
 
 ## Security model
