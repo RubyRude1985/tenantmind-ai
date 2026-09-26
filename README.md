@@ -4,6 +4,10 @@ TenantMind AI is a portfolio-grade, multi-tenant retrieval-augmented generation 
 
 This is an independent demonstration project. It contains no client data or proprietary client code.
 
+**Live demo:** https://tenantmind-ai.onrender.com
+
+The free API instance can take up to a minute to wake after a period of inactivity.
+
 ## Product capabilities
 
 - JWT authentication with workspace identity embedded in every access token
