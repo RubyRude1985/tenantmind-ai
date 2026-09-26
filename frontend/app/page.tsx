@@ -49,7 +49,19 @@ export default function Home() {
     try {
       const response = await fetch(`${API}/api/auth/demo`, { method: "POST" });
       if (!response.ok) throw new Error("Demo workspace could not be created");
-      setAuth(await response.json());
+      const demoAuth: Auth = await response.json();
+      setAuth(demoAuth);
+      if (new URLSearchParams(window.location.search).get("ask") === "1") {
+        const chatResponse = await fetch(`${API}/api/chat`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${demoAuth.access_token}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ question: "Which services power the production demo?" }),
+        });
+        if (chatResponse.ok) {
+          setQuestion("Which services power the production demo?");
+          setResult(await chatResponse.json());
+        }
+      }
     } catch (err) { setError(err instanceof Error ? err.message : "Unexpected error"); }
     finally { setBusy(""); }
   }
