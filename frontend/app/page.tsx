@@ -40,6 +40,9 @@ export default function Home() {
   }, [auth, request]);
 
   useEffect(() => { refresh().catch((err) => setError(err.message)); }, [refresh]);
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("demo") === "1") enterDemo();
+  }, []);
 
   async function enterDemo() {
     setBusy("auth"); setError("");
